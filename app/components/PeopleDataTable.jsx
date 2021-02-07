@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Table from 'react-bootstrap/Table';
-import { timestampToDateString } from '../utils/dateFormatUtils';
 import { sortIndustry, sortSalary, sortDateOfBirth } from '../utils/sortUtils';
+import PersonSearchForm from './PersonSearchForm';
+import { getSearchResults } from '../utils/searchUtils';
+import DataTable from './DataTable';
 
 const PeopleDataTable = ({
   peopleData
@@ -11,6 +12,8 @@ const PeopleDataTable = ({
   const [salarySort, setSalarySort] = useState(null);
   const [industrySort, setIndustrySort] = useState(null);
   const [dateOfBirthSort, setDateOfBirthSort] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const [processedPeopleData, setProcessedPeopleData] = useState([]);
   const handleSalarySort = () => {
@@ -35,6 +38,22 @@ const PeopleDataTable = ({
     } else {
       setIndustrySort('asc');
     }
+  };
+
+  const handleSearchSubmit = () => {
+    if (searchTerm) {
+      setSearchResults(getSearchResults(
+        searchTerm,
+        processedPeopleData
+      ));
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const handleSearchReset = () => {
+    setSearchTerm('');
+    setSearchResults([]);
   };
 
   // When parent component loads new data into table, load it into component
@@ -65,48 +84,23 @@ const PeopleDataTable = ({
     }
   }, [dateOfBirthSort]);
 
-  const tableHeader = (
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th><a href='#' onClick={handleDateOfBirthSort}>Date of Birth</a></th>
-        <th><a href='#' onClick={handleIndustrySort}>Industry</a></th>
-        <th><a href='#' onClick={handleSalarySort}>Salary</a></th>
-        <th>Years of experience</th>
-      </tr>
-    </thead>
-  );
-
   return (
-    <Table striped bordered hover variant='dark' size='sm'>
-      {tableHeader}
-      <tbody>
-        {
-          processedPeopleData.map(({
-            id,
-            first_name,
-            last_name,
-            email,
-            date_of_birth,
-            industry,
-            salary,
-            years_of_experience
-          }) => (
-            <tr key={id}>
-              <td>{first_name}</td>
-              <td>{last_name}</td>
-              <td>{email}</td>
-              <td>{timestampToDateString(date_of_birth)}</td>
-              <td>{industry}</td>
-              <td>{salary}</td>
-              <td>{years_of_experience}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </Table>
+    <div>
+      <PersonSearchForm
+        searchTerm={searchTerm}
+        onChange={setSearchTerm}
+        onSubmit={handleSearchSubmit}
+        onReset={handleSearchReset}
+      />
+      <DataTable
+        data={searchResults && searchResults.length
+          ? searchResults
+          : processedPeopleData}
+        handleDateOfBirthSort={handleDateOfBirthSort}
+        handleIndustrySort={handleIndustrySort}
+        handleSalarySort={handleSalarySort}
+      />
+    </div>
   );
 };
 

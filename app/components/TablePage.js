@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMaxPage } from '../actions/paginationActions';
 import { fetchPeopleData } from '../actions/peopleDataActions';
-import LoadingSpinner from './common/LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import Pagination from './Pagination';
 import PeopleDataTable from './PeopleDataTable';
 
