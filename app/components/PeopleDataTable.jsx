@@ -1,53 +1,57 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Table from 'react-bootstrap/Table';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { timestampToDateString } from '../utils/dateFormatUtils';
 
 const PeopleDataTable = ({
   peopleData
 }) => {
-  const tableHeader = (
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Date of Birth</th>
-        <th>Industry</th>
-        <th>Salary</th>
-        <th>Years of experience</th>
-      </tr>
-    </thead>
-  );
+  const tableColumns = [
+    {
+      dataField: 'first_name',
+      text: 'First Name'
+    },
+    {
+      dataField: 'last_name',
+      text: 'Last Name'
+    },
+    {
+      dataField: 'email',
+      text: 'Email'
+    },
+    {
+      dataField: 'date_of_birth',
+      text: 'Date of Birth',
+      type: 'date',
+      formatter: (cell) => timestampToDateString(cell)
+    },
+    {
+      dataField: 'industry',
+      text: 'Industry'
+    },
+    {
+      dataField: 'salary',
+      text: 'Salary',
+      type: 'number'
+    },
+    {
+      dataField: 'years_of_experience',
+      text: 'Years of Experience',
+      type: 'number'
+    }
+  ];
 
   return (
-    <Table striped bordered hover variant='dark' size='sm'>
-      {tableHeader}
-      <tbody>
-        {
-          peopleData.map(({
-            id,
-            first_name,
-            last_name,
-            email,
-            date_of_birth,
-            industry,
-            salary,
-            years_of_experience
-          }) => (
-            <tr key={id}>
-              <td>{first_name}</td>
-              <td>{last_name}</td>
-              <td>{email}</td>
-              <td>{date_of_birth}</td>
-              <td>{industry}</td>
-              <td>{salary}</td>
-              <td>{years_of_experience}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </Table>
+    <BootstrapTable
+      striped
+      hover
+      condensed
+      bootstrap4
+      keyField='id'
+      data={peopleData}
+      columns={tableColumns}
+    />
   );
 };
 
