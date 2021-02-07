@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { sortIndustry, sortSalary, sortDateOfBirth } from '../utils/sortUtils';
+import { sortIndustry, sortSalary, sortDateOfBirth } from '../../utils/sortUtils';
 import PersonSearchForm from './PersonSearchForm';
-import { getSearchResults } from '../utils/searchUtils';
+import { getSearchResults } from '../../utils/searchUtils';
 import DataTable from './DataTable';
 
 const PeopleDataTable = ({

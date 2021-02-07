@@ -4,7 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage, setCurrentPageData, setResultsPerPage } from '../actions/paginationActions';
+import { setCurrentPage, setCurrentPageData, setResultsPerPage } from '../../actions/paginationActions';
 
 const Pagination = () => {
   const dispatch = useDispatch();

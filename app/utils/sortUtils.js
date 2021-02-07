@@ -1,5 +1,5 @@
 const getSortConstants = (sortType) => (sortType === 'asc' ? [1, -1] : [-1, 1]);
-const integerSort = (a, b, lessThan, greaterThan) => {
+export const integerSort = (a, b, lessThan, greaterThan) => {
   if (a < b) {
     return lessThan;
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
-import { timestampToDateString } from '../utils/dateFormatUtils';
+import { timestampToDateString } from '../../utils/dateFormatUtils';
 
 const DataTable = ({
   data,

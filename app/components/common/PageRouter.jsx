@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ChartsPage from './ChartsPage';
-import TablePage from './TablePage';
+import ChartsPage from '../ChartsPage';
+import TablePage from '../TablePage';
 
 export default () => (
   <BrowserRouter>
