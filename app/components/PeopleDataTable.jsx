@@ -12,7 +12,7 @@ const PeopleDataTable = ({
   const [industrySort, setIndustrySort] = useState(null);
   const [dateOfBirthSort, setDateOfBirthSort] = useState(null);
 
-  const [processedPeopleData, setProcessedPeopleData] = useState(peopleData);
+  const [processedPeopleData, setProcessedPeopleData] = useState([]);
   const handleSalarySort = () => {
     if (salarySort) {
       setSalarySort(salarySort === 'asc' ? 'desc' : 'asc');
@@ -41,17 +41,7 @@ const PeopleDataTable = ({
   // state and apply selected sorting to it.
   useEffect(() => {
     if (peopleData) {
-      let newPeopleData = peopleData;
-      if (salarySort) {
-        newPeopleData = sortSalary(newPeopleData);
-      }
-      if (industrySort) {
-        newPeopleData = sortIndustry(newPeopleData);
-      }
-      if (dateOfBirthSort) {
-        newPeopleData = sortDateOfBirth(newPeopleData);
-      }
-      setProcessedPeopleData(newPeopleData);
+      setProcessedPeopleData(peopleData);
     }
   }, [peopleData]);
 
