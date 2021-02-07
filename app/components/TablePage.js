@@ -24,7 +24,11 @@ const TablePage = () => {
       <div>This is table page</div>
       {
         peopleDataLoadingStatus === 'fulfilled'
-          ? <PeopleDataTable peopleData={peopleData} />
+          ? (
+            <PeopleDataTable
+              peopleData={peopleData}
+            />
+          )
           : <div>Data is loading</div>
       }
     </div>

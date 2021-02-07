@@ -1,57 +1,122 @@
 /* eslint-disable camelcase */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import BootstrapTable from 'react-bootstrap-table-next';
+import Table from 'react-bootstrap/Table';
 import { timestampToDateString } from '../utils/dateFormatUtils';
+import { sortIndustry, sortSalary, sortDateOfBirth } from '../utils/sortUtils';
 
 const PeopleDataTable = ({
   peopleData
 }) => {
-  const tableColumns = [
-    {
-      dataField: 'first_name',
-      text: 'First Name'
-    },
-    {
-      dataField: 'last_name',
-      text: 'Last Name'
-    },
-    {
-      dataField: 'email',
-      text: 'Email'
-    },
-    {
-      dataField: 'date_of_birth',
-      text: 'Date of Birth',
-      type: 'date',
-      formatter: (cell) => timestampToDateString(cell)
-    },
-    {
-      dataField: 'industry',
-      text: 'Industry'
-    },
-    {
-      dataField: 'salary',
-      text: 'Salary',
-      type: 'number'
-    },
-    {
-      dataField: 'years_of_experience',
-      text: 'Years of Experience',
-      type: 'number'
+  const [salarySort, setSalarySort] = useState(null);
+  const [industrySort, setIndustrySort] = useState(null);
+  const [dateOfBirthSort, setDateOfBirthSort] = useState(null);
+
+  const [processedPeopleData, setProcessedPeopleData] = useState(peopleData);
+  const handleSalarySort = () => {
+    if (salarySort) {
+      setSalarySort(salarySort === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSalarySort('asc');
     }
-  ];
+  };
+
+  const handleDateOfBirthSort = () => {
+    if (dateOfBirthSort) {
+      setDateOfBirthSort(dateOfBirthSort === 'asc' ? 'desc' : 'asc');
+    } else {
+      setDateOfBirthSort('asc');
+    }
+  };
+
+  const handleIndustrySort = () => {
+    if (industrySort) {
+      setIndustrySort(industrySort === 'asc' ? 'desc' : 'asc');
+    } else {
+      setIndustrySort('asc');
+    }
+  };
+
+  // When parent component loads new data into table, load it into component
+  // state and apply selected sorting to it.
+  useEffect(() => {
+    if (peopleData) {
+      let newPeopleData = peopleData;
+      if (salarySort) {
+        newPeopleData = sortSalary(newPeopleData);
+      }
+      if (industrySort) {
+        newPeopleData = sortIndustry(newPeopleData);
+      }
+      if (dateOfBirthSort) {
+        newPeopleData = sortDateOfBirth(newPeopleData);
+      }
+      setProcessedPeopleData(newPeopleData);
+    }
+  }, [peopleData]);
+
+  useEffect(() => {
+    if (salarySort) {
+      setProcessedPeopleData(sortSalary(processedPeopleData, salarySort));
+    }
+  }, [salarySort]);
+
+  useEffect(() => {
+    if (industrySort) {
+      setProcessedPeopleData(sortIndustry(processedPeopleData, industrySort));
+    }
+  }, [industrySort]);
+
+  useEffect(() => {
+    if (dateOfBirthSort) {
+      setProcessedPeopleData(sortDateOfBirth(
+        processedPeopleData, dateOfBirthSort
+      ));
+    }
+  }, [dateOfBirthSort]);
+
+  const tableHeader = (
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th><a href='#' onClick={handleDateOfBirthSort}>Date of Birth</a></th>
+        <th><a href='#' onClick={handleIndustrySort}>Industry</a></th>
+        <th><a href='#' onClick={handleSalarySort}>Salary</a></th>
+        <th>Years of experience</th>
+      </tr>
+    </thead>
+  );
 
   return (
-    <BootstrapTable
-      striped
-      hover
-      condensed
-      bootstrap4
-      keyField='id'
-      data={peopleData}
-      columns={tableColumns}
-    />
+    <Table striped bordered hover variant='dark' size='sm'>
+      {tableHeader}
+      <tbody>
+        {
+          processedPeopleData.map(({
+            id,
+            first_name,
+            last_name,
+            email,
+            date_of_birth,
+            industry,
+            salary,
+            years_of_experience
+          }) => (
+            <tr key={id}>
+              <td>{first_name}</td>
+              <td>{last_name}</td>
+              <td>{email}</td>
+              <td>{timestampToDateString(date_of_birth)}</td>
+              <td>{industry}</td>
+              <td>{salary}</td>
+              <td>{years_of_experience}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </Table>
   );
 };
 
