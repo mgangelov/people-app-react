@@ -28,10 +28,17 @@ The charts page consists of:
 
 The scatter chart allows for enabling and disabling of datasets using a legend. The colors on the second chart are randomised each time the page is refreshed.
 
-# Technologies used
+## Technologies used
 
 The table component used is taken from [React Bootstrap](https://react-bootstrap.github.io/). The charts are from [Recharts](https://recharts.org/en-US/).
 
 For Redux implementation a form of [Redux Toolkit](https://redux-toolkit.js.org/) was utilised.
 
 For a code bundler [Parcel](https://parceljs.org/) is used. While I am more experienced with Webpack, I wanted to try out Parcel. That also allowed me to set up a React application from scratch, rather than using `create-react-app`.
+
+## Room for improvement
+
+* The UI styling is very rough, due to the lack of time to polish
+* Perhaps better insights could have been gathered using different chart visualisations
+* The sorting setting on the table component could be preserved when the page is changed
+* The sorting UX could be better - there could be an indication of what type of sort (ascending/descending) is selected
